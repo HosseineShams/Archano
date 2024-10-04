@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حذف رزرو</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        body, h2, p, form, button, a {
+            font-family: 'Vazirmatn', sans-serif;
+            direction: rtl; /* Ensures text direction is right-to-left */
+            text-align: center; /* Centers text */
+        }
+        body {
+            background-color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; /* Centers content vertically */
+        }
+        .container {
+            background-color: #FBF6E2;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+            text-align: center; /* Centers text inside container */
+        }
+        .form-header h2 {
+            font-size: 2rem;
+            color: #E68369;
+            margin-bottom: 1rem;
+        }
+        .form-header p {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+        .btn-custom {
+            display: inline-block;
+            margin: 15px 10px;
+            padding: 10px 20px;
+            color: #FBF6E2;
+            background-color: #E68369;
+            text-decoration: none;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+            font-family: 'Shabnam', sans-serif;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .btn-custom:hover {
+            background-color: #ECCEAE;
+            color: #FBF6E2;
+            transform: scale(1.08);
+        }
+        .btn-custom + .btn-custom { /* Ensures buttons are spaced correctly */
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <h2>حذف رزرو</h2>
+            <p>آیا مطمئن هستید که می‌خواهید این رزرو را حذف کنید؟</p>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn-custom">بله، حذف شود</button>
+
+            <!-- Redirect to table_history on cancel -->
+            <a href="{% url 'table_history' %}" class="btn-custom">لغو</a>
+        </form>
+    </div>
+</body>
+
+
+
+</html>

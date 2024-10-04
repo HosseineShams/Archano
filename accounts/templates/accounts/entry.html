@@ -1,0 +1,227 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'accounts/css/style.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لیست سالن‌ها</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'IranNastaliq';
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Shabnam';
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        body {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{% static "images/space2.jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Shabnam', sans-serif;
+            color: #FBF6E2;
+            animation: fadeIn 1s ease-in-out forwards;
+            overflow-x: hidden;
+        }
+
+        .container {
+            direction: ltr;
+            padding-top: 20px;
+            font-family: 'Shabnam', sans-serif;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(19, 24, 66, 0.3);
+            background-color: #131842;
+            font-family: 'Shabnam', sans-serif;
+            width: 100%;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 16px 35px rgba(19, 24, 66, 0.5);
+        }
+
+        .saloon-card-header {
+            text-align: center;
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 10px;
+            font-family: 'Shabnam', sans-serif;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .btn-custom {
+            background-color: #E68369;
+            color: #FBF6E2;
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+            border: none;
+            font-family: 'Shabnam', sans-serif;
+            width: 100%;
+        }
+
+        .btn-custom:hover {
+            background-color: #ECCEAE;
+            transform: scale(1.08);
+        }
+
+        .row {
+            justify-content: center;
+            gap: 20px; /* Default space between the cards */
+        }
+
+        .col-md-4 {
+            display: flex;
+            justify-content: center;
+            max-width: 350px;
+            margin: 10px;
+            padding-top: 160px; /* Adjust the value as needed */
+        }
+        
+        .card-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @media (max-width: 992px) {
+            .saloon-card-header {
+                font-size: 1.5rem;
+            }
+
+            .btn-custom {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .saloon-card-header {
+                font-size: 1.3rem;
+            }
+
+            .btn-custom {
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .saloon-card-header {
+                font-size: 1.2rem;
+            }
+
+            .btn-custom {
+                font-size: 0.85rem;
+                padding: 8px 10px;
+            }
+
+            .col-md-4 {
+                flex-basis: 100%;
+                display: flex;
+                justify-content: center;
+                margin: 5px 0; /* Reduced margin */
+                padding-top: 0; /* Removed padding-top */
+            }
+
+            .row {
+                gap: 10px; /* Reduced gap between cards for mobile devices */
+            }
+        }
+
+        .saloon-card-header:hover {
+            color: #ECCEAE;
+        }
+
+        /* Navigation bar styles */
+        .nav-btns {
+            display: flex;
+            justify-content: center; /* Centering the buttons */
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            gap: 20px; /* Adding space between the buttons */
+        }
+
+        /* Fixing both <a> and <button> styles to look the same */
+        .nav-link, .btn-link {
+            display: inline-block; /* Uniform display */
+            padding: 10px 20px; /* Same padding for both */
+            color: #FBF6E2;
+            font-size: 1.2rem;
+            text-decoration: none;
+            font-family: 'Shabnam', sans-serif;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s ease-in-out, border-bottom 0.3s ease-in-out;
+            border-bottom: 2px solid transparent; /* Adding border for hover effect */
+        }
+
+        .nav-link:hover, .btn-link:hover {
+            color: #ECCEAE;
+        }
+
+        /* Removing default button styles */
+        .btn-link {
+            background: none;
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        @media (max-width: 576px) {
+            .nav-link, .btn-link {
+                font-size: 1rem;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-btns">
+        به آرکانو خوش آمدید!
+    </div>
+
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-md-4 mb-4">
+                <div class="card saloon-card">
+                    <div class="card-header saloon-card-header">
+                        گالری آرکانو
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'signup' %}" class="btn btn-custom">ورود</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card saloon-card">
+                    <div class="card-header saloon-card-header">
+                        کافه رستوران آرکانو
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'restaurant_home' %}" class="btn btn-custom">ورود</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

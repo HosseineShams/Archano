@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم رزرو میز آرکانو</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #edf3f8;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        /* Faded background image */
+        body::before {
+            content: "";
+            position: fixed; /* Change from 'absolute' to 'fixed' to maintain background position on scroll */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('{% static "images/back.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.5; /* Adjust opacity for better visibility of the header */
+            z-index: -1; /* Ensure the image stays behind the content */
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        /* Custom styles for header */
+        #header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #444444D9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #back-button {
+            font-size: 16px;
+            color: #ffffff; /* White text */
+            background-color: #95999e; /* Grey background */
+            text-decoration: none;
+            padding: 5px 10px; /* Adjusted padding to match */
+            border: 0; /* No border */
+            border-radius: 5px;
+            text-transform: uppercase; /* Make text uppercase */
+            letter-spacing: 2px; /* Adding letter spacing */
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        #back-button:hover {
+            background-color: #747474; /* Darker grey on hover */
+            color: #fff; /* Keep text white */
+        }
+
+        #header-logo {
+            height: 70px; /* Adjust based on your logo size */
+            width: auto;
+        }
+
+        #table-map {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-top: 44.44%;
+            background-image: url('{% static "images/plan.JPG" %}');
+            background-size: cover;
+            background-position: center;
+            margin: 0px auto;
+            border: 2px solid #ccc;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .table-container {
+            position: absolute;
+            background-color: rgba(255, 0, 0, 0.5); /* Debugging color */
+        }
+
+        .table {
+            width: 60px; /* Initial fixed size for debugging */
+            height: 60px; /* Initial fixed size for debugging */
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #FF9966, #FF5E62);
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .table:hover {
+            transform: scale(1.15);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .tooltip {
+            position: absolute;
+            display: none;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        #table-map a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        #orientation-warning {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        @media only screen and (orientation: portrait) {
+            #orientation-warning {
+                display: flex;
+            }
+        }
+
+        @media only screen and (orientation: landscape) {
+            #orientation-warning {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="header-container">
+        <a id="back-button" href="{% url 'home' %}">بازگشت</a>
+        <img id="header-logo" src="{% static 'images/logo.png' %}" alt="Logo">
+    </div>
+
+    <div id="table-map">
+        {% for table in tables %}
+            <div class="table-container" data-location-x="{{ table.location_x }}" data-location-y="{{ table.location_y }}">
+                <a href="{% url 'table_detail' table.id %}">
+                    <div class="table" data-table-number="{{ table.capacity }}">{{ table.name }}</div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    <div id="tooltip" class="tooltip"></div>
+    <div id="orientation-warning">
+        <p>لطفا گوشی خود را بچرخانید</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableMap = document.getElementById('table-map');
+            const tableContainers = document.querySelectorAll('.table-container');
+            const tooltip = document.getElementById('tooltip');
+            const topOffsetPercentage = 5; // Adjust this value to control how much the tables are shifted upwards
+    
+            function positionTables() {
+                const mapRect = tableMap.getBoundingClientRect();
+                tableContainers.forEach(container => {
+                    const x = container.getAttribute('data-location-x');
+                    const y = container.getAttribute('data-location-y');
+                    const left = (x / 1800) * 100;
+                    const top = ((y / 800) * 100) - topOffsetPercentage;
+    
+                    container.style.left = `${left}%`;
+                    container.style.top = `${top}%`;
+                });
+            }
+    
+            positionTables();
+            window.addEventListener('resize', positionTables);
+    
+            tableContainers.forEach(container => {
+                container.addEventListener('mouseenter', function(event) {
+                    const tableNumber = container.querySelector('.table').getAttribute('data-table-number');
+                    tooltip.textContent = `ظرفیت ${tableNumber} نفر`;
+                    tooltip.style.display = 'block';
+                    tooltip.style.opacity = '1';
+                    tooltip.style.left = `${event.pageX + 10}px`;
+                    tooltip.style.top = `${event.pageY + 10}px`;
+                });
+    
+                container.addEventListener('mouseleave', function() {
+                    tooltip.style.display = 'none';
+                    tooltip.style.opacity = '0';
+                });
+    
+                container.addEventListener('mousemove', function(event) {
+                    tooltip.style.left = `${event.pageX + 10}px`;
+                    tooltip.style.top = `${event.pageY + 10}px`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>

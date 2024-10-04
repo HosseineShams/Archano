@@ -1,0 +1,288 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پروفایل</title>
+    
+    <!-- Load Bootstrap and Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'accounts/css/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Load Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <style>
+        body {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('{% static "images/space2.jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Shabnam', sans-serif;
+            color: #FBF6E2;
+        }
+
+        .container {
+            max-width: 600px;
+            margin-top: 100px;
+            background-color: #1c1f4e;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(19, 24, 66, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                max-width: 100%;
+                margin-top: 20px;
+                padding: 15px;
+            }
+            .form-header h2 {
+                font-size: 1.3rem;
+            }
+            .form-control {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+            .btn-custom {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .form-control {
+                font-size: 0.8rem;
+                padding: 8px;
+            }
+            .btn-custom {
+                padding: 8px;
+                font-size: 0.8rem;
+            }
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-header h2 {
+            font-family: 'Shabnam', sans-serif;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .form-group label {
+            color: #FBF6E2;
+        }
+
+        .form-control {
+            background-color: #FBF6E2;
+            color: #131842;
+            border-radius: 10px;
+            border: 1px solid #E68369;
+            font-family: 'Shabnam', sans-serif;
+            margin-bottom: 15px;
+        }
+
+        .form-control:focus {
+            border-color: #E68369;
+            outline: none;
+        }
+
+        .btn-custom {
+            background-color: #E68369;
+            color: #FBF6E2;
+            border-radius: 10px;
+            padding: 12px;
+            width: 100%;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s;
+            border: none;
+            font-family: 'Shabnam', sans-serif;
+        }
+
+        .btn-custom:hover {
+            background-color: #ECCEAE;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(230, 131, 105, 0.5);
+        }
+
+        /* Custom styling for Select2 elements */
+        .select2-container .select2-selection--single {
+            background-color: #FBF6E2;
+            color: #131842;
+            border-radius: 10px;
+            border: 1px solid #E68369;
+            height: auto;
+            font-family: 'Shabnam', sans-serif;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #131842;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 100%;
+            border-left: none;
+        }
+
+        .select2-dropdown {
+            background-color: #FBF6E2;
+            color: #131842;
+        }
+
+        .select2-results__option {
+            color: #131842;
+        }
+
+        .select2-results__option--highlighted {
+            background-color: #E68369;
+            color: #FBF6E2;
+        }
+
+        /* Custom styling for number_of_guests input */
+        input[type="number"].form-control {
+            background-color: #FBF6E2;
+            color: #131842;
+            border-radius: 10px;
+            border: 1px solid #E68369;
+            font-family: 'Shabnam', sans-serif;
+            margin-bottom: 15px;
+        }
+
+        input[type="number"].form-control:focus {
+            border-color: #E68369;
+            outline: none;
+        }
+
+        input[type="number"].form-control::-webkit-outer-spin-button,
+        input[type="number"].form-control::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <h2>پروفایل</h2>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Read-only fields for phone number and email -->
+            <div class="form-group">
+                <label for="phone_number">شماره تلفن</label>
+                <input type="text" id="phone_number" class="form-control" value="{{ phone_number }}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="email">ایمیل</label>
+                <input type="email" id="email" class="form-control" value="{{ email }}" readonly>
+            </div>
+
+            <!-- Form to update first name and last name -->
+            <div class="form-group">
+                <label for="first_name">نام</label>
+                {{ name_form.first_name }}
+            </div>
+
+            <div class="form-group">
+                <label for="last_name">نام خانوادگی</label>
+                {{ name_form.last_name }}
+            </div>
+
+            <!-- Form to update other profile information -->
+            <div class="form-group">
+                <label for="sex">جنسیت</label>
+                {{ profile_form.sex }}
+            </div>
+
+            <div class="form-group">
+                <label for="city">شهر</label>
+                {{ profile_form.city }}
+            </div>
+
+            <div class="form-group">
+                <label for="state">منطقه</label>
+                {{ profile_form.state }}
+            </div>
+
+            <div class="form-group">
+                <label for="job">شغل</label>
+                {{ profile_form.job }}
+            </div>
+
+            <div class="form-group">
+                <label for="hobby">سرگرمی</label>
+                {{ profile_form.hobby }}
+            </div>
+
+            <div class="form-group">
+                <label for="dietary_preference">ترجیحات غذایی</label>
+                {{ profile_form.dietary_preference }}
+            </div>
+
+            <div class="form-group">
+                <label for="budget_range">محدوده بودجه</label>
+                {{ profile_form.budget_range }}
+            </div>
+
+            <div class="form-group">
+                <label for="preferred_reservation_time">زمان رزرو مورد نظر</label>
+                {{ profile_form.preferred_reservation_time }}
+            </div>
+
+            <div class="form-group">
+                <label for="photography_style">سبک عکاسی</label>
+                {{ profile_form.photography_style }}
+            </div>
+
+            <!-- Number of Guests Field -->
+            <div class="form-group">
+                <label for="number_of_guests">معمولا با چند نفر می‌آیید؟</label>
+                <input type="number" id="number_of_guests" name="number_of_guests" class="form-control" value="{{ profile_form.number_of_guests.value }}" />
+            </div>
+
+            <!-- Date of Birth Fields -->
+            <div class="row">
+                <div class="col-4 form-group">
+                    <label for="birth_day">روز تولد</label>
+                    {{ profile_form.birth_day }}
+                </div>
+
+                <div class="col-4 form-group">
+                    <label for="birth_month">ماه تولد</label>
+                    {{ profile_form.birth_month }}
+                </div>
+
+                <div class="col-4 form-group">
+                    <label for="birth_year">سال تولد</label>
+                    {{ profile_form.birth_year }}
+                </div>
+            </div>
+
+            <button type="submit" class="btn-custom">ویرایش پروفایل</button>
+        </form>
+    </div>
+
+    <!-- Load jQuery and Select2 JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Apply Select2 to the fields
+            $('.select2').select2({
+                placeholder: 'انتخاب',
+                allowClear: false
+            });
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

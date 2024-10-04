@@ -1,0 +1,197 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">  <!-- Added dir="rtl" for right-to-left text direction -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ویرایش رزرو</title>
+    <!-- Persian Datepicker CSS -->
+    <link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        body, header, main, h1, form, button, a, label {
+            font-family: 'Vazirmatn', sans-serif;
+            direction: rtl; /* Ensures text direction is right-to-left */
+        }
+        body {
+            background-color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            background-color: #E68369;
+            color: #ffffff;
+            width: 100%;
+            padding: 2px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        main {
+            background-color: #FBF6E2;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-align: center; /* Ensures header is centered */
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center aligns all form elements */
+        }
+        
+        input, select, textarea {
+            width: 100%; /* Ensures all input types are the same width */
+            max-width: 400px; /* Limits the width of inputs */
+            padding: 8px;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            text-align: start; /* For text inputs */
+            background-color: #f8f8f8; /* Light background for inputs */
+        }
+
+        .custom-button {
+            display: inline-block;
+            margin: 15px 10px;
+            padding: 8px 20px; /* Adjusted padding */
+            color: #FBF6E2; /* Light beige text color */
+            background-color: #E68369; /* Warm peach background color */
+            text-decoration: none;
+            border-radius: 30px; /* Increased border radius for a rounded look */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out; /* Smooth transition */
+            font-family: 'Shabnam', sans-serif; /* Custom font family */
+            border: none; /* No border */
+            font-size: 1rem; /* Standard font size */
+        }
+        
+        .custom-button:hover {
+            background-color: #ECCEAE; /* Lighter peach color on hover */
+            color: #FBF6E2; /* Keep the text color consistent */
+            transform: scale(1.08); /* Slight scaling effect on hover */
+        }
+        
+        .errors {
+            background-color: #ffdddd;
+            color: #a94442;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            width: 100%;
+        }
+        .errors ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .form-group {
+            width: 100%;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+    </style>   
+</head>
+<body>
+    <header>
+        <h1>{% trans "ویرایش رزرو" %} {{ reservation.get_date }} - {{ reservation.start_time }} تا {{ reservation.end_time }}</h1>
+    </header>
+    <main>
+        <form method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+            {% csrf_token %}
+            
+            <!-- First Name Field -->
+            <div class="form-group">
+                <label for="first_name">نام:</label>
+                {{ form.first_name }}
+            </div>
+
+            <!-- Last Name Field -->
+            <div class="form-group">
+                <label for="last_name">نام خانوادگی:</label>
+                {{ form.last_name }}
+            </div>
+
+            <!-- Phone Number Field -->
+            <div class="form-group">
+                <label for="phone_number">شماره تلفن:</label>
+                {{ form.phone_number }}
+            </div>
+
+            <!-- Description Field -->
+            <div class="form-group">
+                <label for="description">توضیحات:</label>
+                {{ form.description }}
+            </div>
+
+            <!-- Tables Field (Many-to-Many) -->
+            <div class="form-group">
+                <label for="tables">میزها:</label>
+                {{ form.tables }}
+            </div>
+
+            <!-- Date Field -->
+            <div class="form-group">
+                <label for="date">تاریخ:</label>
+                {{ form.date }}
+            </div>
+
+            <!-- Start Time Field -->
+            <div class="form-group">
+                <label for="start_time">زمان شروع:</label>
+                {{ form.start_time }}
+            </div>
+
+            <!-- End Time Field -->
+            <div class="form-group">
+                <label for="end_time">زمان پایان:</label>
+                {{ form.end_time }}
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="custom-button">ذخیره تغییرات</button>
+            <a href="{% url 'saloon_list' %}" class="custom-button">بازگشت به صفحه رزرو</a>
+        </form>
+
+        <!-- Error Handling -->
+        {% if form.errors %}
+        <div class="errors">
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </main>
+    <script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+</body>
+
+</html>
