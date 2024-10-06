@@ -7,7 +7,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'restaurant/css/style.css' %}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>میزهای سالن</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'accounts/img/favicon.ico' %}">
+    <title>کافه رستوران آرکانو</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         @font-face {
@@ -23,7 +24,7 @@
         }
 
         body {
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static "images/space2.jpg" %}') no-repeat center center fixed;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static "restaurant/img/space2.jpg" %}') no-repeat center center fixed;
             background-size: cover;
             font-family: 'Shabnam', sans-serif;
             color: #FBF6E2;
@@ -297,14 +298,14 @@
                                         {% comment %} <p class="card-text">رزروهای امروز: {{ data.reservation_count }}</p>
                                         <p class="card-text">زمان رزرو شده: {{ data.reserved_time }} ساعت</p>
                                         <p class="card-text">زمان باقی‌مانده: {{ data.remaining_time }} ساعت</p> {% endcomment %}
-                                        <p class="card-text">زمان‌های رزرو شده امروز:</p>
+                                        {% comment %} <p class="card-text">زمان‌های رزرو شده امروز:</p> {% endcomment %}
                                         <ul class="card-text">
                                             {% if data.reservation_times %}
                                                 {% for time in data.reservation_times %}
                                                     <li>از {{ time.start_time }} تا {{ time.end_time }}</li>
                                                 {% endfor %}
                                             {% else %}
-                                                <li>هیچ رزروی امروز انجام نشده است.</li>
+                                                <li>هیچ رزروی امروز انجام نشده است</li>
                                             {% endif %}
                                         </ul>
                                         

@@ -5,7 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پروفایل</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'accounts/img/favicon.ico' %}">
+    <title>کافه رستوران آرکانو</title>
     
     <!-- Load Bootstrap and Custom CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'accounts/css/style.css' %}">
@@ -17,7 +18,7 @@
 
     <style>
         body {
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('{% static "images/space2.jpg" %}') no-repeat center center fixed;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('{% static "accounts/img/space2.jpg" %}') no-repeat center center fixed;
             background-size: cover;
             font-family: 'Shabnam', sans-serif;
             color: #FBF6E2;
@@ -162,6 +163,13 @@
             -webkit-appearance: none;
             margin: 0;
         }
+        .arrow-right-top {
+            position: absolute;
+            top: 130px; /* Place the arrow 70px from the top */
+            left: 500px; /* Place the arrow 30px from the left edge */
+            font-size: 24px; /* Arrow size */
+            color: #ECCEAE !important; /* Force arrow color */
+        }
     </style>
     
 </head>
@@ -170,7 +178,9 @@
         <div class="form-header">
             <h2>پروفایل</h2>
         </div>
-
+        <a href="{% url 'restaurant_home' %}" class="arrow-right-top">
+            <i class="fas fa-arrow-left size-custom" style="color: #E68369;"></i>
+        </a>
         <form method="post">
             {% csrf_token %}
 
@@ -265,7 +275,7 @@
                     {{ profile_form.birth_year }}
                 </div>
             </div>
-
+            <br>
             <button type="submit" class="btn-custom">ویرایش پروفایل</button>
         </form>
     </div>

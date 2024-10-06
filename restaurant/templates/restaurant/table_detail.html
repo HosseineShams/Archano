@@ -7,7 +7,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'restaurant/css/style.css' %}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>جزئیات میز {{ table.name }}</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'accounts/img/favicon.ico' %}">
+    <title>آرکانو - رزروهای میز {{ table.name }}</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -109,10 +110,9 @@
 </head>
 <body>
     <header>
-        <h1>اطلاعات میز {{ table.name }} </h1>
+        <h1>رزروهای میز {{ table.name }} </h1>
     </header>
     <main>
-        <h2>رزروهای این میز</h2>
         <table>
             <thead>
                 <tr>

@@ -7,12 +7,13 @@
             <link rel="stylesheet" type="text/css" href="{% static 'accounts/css/style.css' %}">
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>تایید کد OTP</title>
+            <link rel="icon" type="image/x-icon" href="{% static 'accounts/img/favicon.ico' %}">
+            <title>کافه رستوران آرکانو</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
             <style>
                 body {
-                    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('{% static "images/space2.jpg" %}') no-repeat center center fixed;
+                    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('{% static "accounts/img/space2.jpg" %}') no-repeat center center fixed;
                     background-size: cover;
                     font-family: 'Shabnam', sans-serif;
                     color: #FBF6E2;
@@ -149,7 +150,7 @@
                 <!-- Logo centered in the container -->
                 <div class="logo">
                     <a href="{% url 'entry' %}">
-                        <img src="{% static 'images/logo.png' %}" alt="Logo">
+                        <img src="{% static 'accounts/img/logo.png' %}" alt="Logo">
                     </a>
                 </div>
         

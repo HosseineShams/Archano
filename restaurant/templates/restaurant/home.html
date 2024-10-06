@@ -55,7 +55,7 @@
             height: 820px;
             background: 
                 linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-                url('{% static "images/back.jpg" %}');
+                url('{% static "restaurant/img/back.jpg" %}');
             background-size: cover;
             display: flex;
             flex-direction: column;
@@ -252,8 +252,8 @@
     </style>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <title>Restaurant Website</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'accounts/img/favicon.ico' %}">
+    <title>کافه رستوران آرکانو</title>
 </head>
 <body>
     <nav>
@@ -320,13 +320,13 @@
     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="3000">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="{% static 'images/space1.jpg' %}" class="d-block w-100" alt="First slide">
+                <img src="{% static 'restaurant/img/space1.jpg' %}" class="d-block w-100" alt="First slide">
             </div>
             <div class="carousel-item">
-                <img src="{% static 'images/space2.jpg' %}" class="d-block w-100" alt="Second slide">
+                <img src="{% static 'restaurant/img/space2.jpg' %}" class="d-block w-100" alt="Second slide">
             </div>
             <div class="carousel-item">
-                <img src="{% static 'images/space3.jpg' %}" class="d-block w-100" alt="Third slide">
+                <img src="{% static 'restaurant/img/space3.jpg' %}" class="d-block w-100" alt="Third slide">
             </div>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">

@@ -32,7 +32,7 @@ def login_signup_view(request):
                 login(request, user)
                 return redirect('saloon_list')
             else:
-                error_message = 'Incorrect phone number or password.'
+                error_message = 'رمز عبور یا تلفن همراه اشتباه است'
 
             # Return the same page with error message for login
             return render(request, 'accounts/login.html', {
@@ -112,7 +112,7 @@ def login_signup_view(request):
                 login(request, user)
                 return redirect('saloon_list')
             else:
-                error_message = 'Incorrect phone number or password.'
+                error_message = 'رمز عبور یا تلفن همراه اشتباه است'
 
             # Return the same page with error message for login
             return render(request, 'accounts/login.html', {
